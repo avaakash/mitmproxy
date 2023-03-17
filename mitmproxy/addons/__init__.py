@@ -11,12 +11,14 @@ from mitmproxy.addons import cut
 from mitmproxy.addons import disable_h2c
 from mitmproxy.addons import dns_resolver
 from mitmproxy.addons import export
+from mitmproxy.addons import latency
 from mitmproxy.addons import maplocal
 from mitmproxy.addons import mapremote
 from mitmproxy.addons import modifybody
 from mitmproxy.addons import modifyheaders
 from mitmproxy.addons import next_layer
 from mitmproxy.addons import onboarding
+from mitmproxy.addons import pathbasedfiltering
 from mitmproxy.addons import proxyauth
 from mitmproxy.addons import proxyserver
 from mitmproxy.addons import save

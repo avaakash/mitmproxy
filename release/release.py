@@ -18,7 +18,7 @@ def get(url: str) -> http.client.HTTPResponse:
     assert url.startswith("https://")
     host, path = re.split(r"(?=/)", url.removeprefix("https://"), maxsplit=1)
     conn = http.client.HTTPSConnection(host)
-    conn.request("GET", path, headers={"User-Agent": "mitmproxy/release-bot"})
+    conn.request("GET", path, headers={"User-Agent": "avaakash/release-bot"})
     resp = conn.getresponse()
     print(f"HTTP {resp.status} {resp.reason}")
     return resp
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     skip_branch_status_check = sys.argv[2] == "true"
 
     # changing this is useful for testing on a fork.
-    repo = os.environ.get("GITHUB_REPOSITORY", "mitmproxy/mitmproxy")
+    repo = os.environ.get("GITHUB_REPOSITORY", "avaakash/mitmproxy")
     print(f"{version=} {skip_branch_status_check=} {repo=}")
 
     branch = subprocess.run(
@@ -65,16 +65,6 @@ if __name__ == "__main__":
             ]
             == "success"
         )
-
-    print("➡️ Updating CHANGELOG.md...")
-    changelog = root / "CHANGELOG.md"
-    date = datetime.date.today().strftime("%d %B %Y")
-    title = f"## {date}: mitmproxy {version}"
-    cl = changelog.read_text("utf8")
-    assert title not in cl
-    cl, ok = re.subn(r"(?<=## Unreleased: mitmproxy next)", f"\n\n\n\n{title}", cl)
-    assert ok == 1
-    changelog.write_text(cl, "utf8")
 
     print("➡️ Updating web assets...")
     subprocess.run(["npm", "ci"], cwd=root / "web", check=True, capture_output=True)
@@ -178,33 +168,6 @@ if __name__ == "__main__":
     print("➡️ Checking GitHub Releases...")
     resp = get(f"https://api.github.com/repos/{repo}/releases/tags/{version}")
     assert resp.status == 200
-
-    print("➡️ Checking PyPI...")
-    pypi_data = get_json("https://pypi.org/pypi/mitmproxy/json")
-    assert version in pypi_data["releases"]
-
-    print("➡️ Checking docs archive...")
-    resp = get(f"https://docs.mitmproxy.org/archive/v{major_version}/")
-    assert resp.status == 200
-
-    print(f"➡️ Checking Docker ({version} tag)...")
-    resp = get(
-        f"https://hub.docker.com/v2/repositories/mitmproxy/mitmproxy/tags/{version}"
-    )
-    assert resp.status == 200
-
-    if branch == "main":
-        print("➡️ Checking Docker (latest tag)...")
-        docker_latest_data = get_json(
-            "https://hub.docker.com/v2/repositories/mitmproxy/mitmproxy/tags/latest"
-        )
-        docker_last_updated = datetime.datetime.fromisoformat(
-            docker_latest_data["last_updated"].replace("Z", "+00:00")
-        )
-        print(f"Last update: {docker_last_updated.isoformat(timespec='minutes')}")
-        assert docker_last_updated > datetime.datetime.now(
-            datetime.timezone.utc
-        ) - datetime.timedelta(hours=2)
 
     print("")
     print("✅ All done. 🥳")

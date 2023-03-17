@@ -102,6 +102,14 @@ def common_options(parser, opts):
     group = parser.add_argument_group("Modify Headers")
     opts.make_parser(group, "modify_headers", metavar="PATTERN", short="H")
 
+    # Path Based Filtering
+    group = parser.add_argument_group("Path Based Filtering")
+    opts.make_parser(group, "path", metavar="PATH", short="PF")
+
+    # Latency
+    group = parser.add_argument_group("Latency")
+    opts.make_parser(group, "latency", metavar="INT", short="LAT")
+
 
 def mitmproxy(opts):
     parser = argparse.ArgumentParser(usage="%(prog)s [options]")
