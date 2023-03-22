@@ -94,13 +94,19 @@ def common_options(parser, opts):
     group = parser.add_argument_group("Map Local")
     opts.make_parser(group, "map_local", metavar="PATTERN")
 
-    # Modify Body
-    group = parser.add_argument_group("Modify Body")
-    opts.make_parser(group, "modify_body", metavar="PATTERN", short="B")
+    # Path Based Filtering
+    group = parser.add_argument_group("Path Based Filtering")
+    opts.make_parser(group, "path", metavar="PATH")
 
-    # Modify headers
-    group = parser.add_argument_group("Modify Headers")
+    # Latency
+    group = parser.add_argument_group("Latency")
+    opts.make_parser(group, "latency", metavar="INT")
+
+    # Modify Request/Response
+    group = parser.add_argument_group("Modify")
+    opts.make_parser(group, "modify_body", metavar="PATTERN", short="B")
     opts.make_parser(group, "modify_headers", metavar="PATTERN", short="H")
+    opts.make_parser(group, "modify_status", metavar="INT")
 
 
 def mitmproxy(opts):

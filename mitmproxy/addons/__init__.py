@@ -11,17 +11,20 @@ from mitmproxy.addons import cut
 from mitmproxy.addons import disable_h2c
 from mitmproxy.addons import dns_resolver
 from mitmproxy.addons import export
+from mitmproxy.addons import latency
 from mitmproxy.addons import maplocal
 from mitmproxy.addons import mapremote
 from mitmproxy.addons import modifybody
 from mitmproxy.addons import modifyheaders
 from mitmproxy.addons import next_layer
 from mitmproxy.addons import onboarding
+from mitmproxy.addons import pathbasedfiltering
 from mitmproxy.addons import proxyauth
 from mitmproxy.addons import proxyserver
 from mitmproxy.addons import save
 from mitmproxy.addons import script
 from mitmproxy.addons import serverplayback
+from mitmproxy.addons import modifystatus
 from mitmproxy.addons import stickyauth
 from mitmproxy.addons import stickycookie
 from mitmproxy.addons import tlsconfig
@@ -51,11 +54,14 @@ def default_addons():
         serverplayback.ServerPlayback(),
         mapremote.MapRemote(),
         maplocal.MapLocal(),
+        pathbasedfiltering.PathBasedFiltering(),
         modifybody.ModifyBody(),
         modifyheaders.ModifyHeaders(),
+        modifystatus.ModifyStatusCode(),
         stickyauth.StickyAuth(),
         stickycookie.StickyCookie(),
         save.Save(),
         tlsconfig.TlsConfig(),
         upstream_auth.UpstreamAuth(),
+        latency.AddLatency(),
     ]

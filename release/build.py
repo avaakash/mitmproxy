@@ -125,7 +125,7 @@ def standalone_binaries():
 
         _test_binaries(TEMP_DIR / "pyinstaller/dist")
 
-        for tool in ["mitmproxy", "mitmdump", "mitmweb"]:
+        for tool in ["mitmdump"]:
             executable = TEMP_DIR / "pyinstaller/dist" / tool
             if platform.system() == "Windows":
                 executable = executable.with_suffix(".exe")
@@ -142,7 +142,7 @@ def _ensure_pyinstaller_onedir():
 
 
 def _test_binaries(binary_directory: Path) -> None:
-    for tool in ["mitmproxy", "mitmdump", "mitmweb"]:
+    for tool in ["mitmdump"]:
         executable = binary_directory / tool
         if platform.system() == "Windows":
             executable = executable.with_suffix(".exe")

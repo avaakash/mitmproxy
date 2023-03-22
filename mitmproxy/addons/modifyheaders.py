@@ -82,12 +82,12 @@ class ModifyHeaders:
                 self.replacements.append(spec)
 
     def request(self, flow):
-        if flow.response or flow.error or not flow.live:
+        if flow.response or flow.error or not flow.live and ctx.options.injectchaos:
             return
         self.run(flow, flow.request.headers)
 
     def response(self, flow):
-        if flow.error or not flow.live:
+        if flow.error or not flow.live and ctx.options.injectchaos:
             return
         self.run(flow, flow.response.headers)
 
